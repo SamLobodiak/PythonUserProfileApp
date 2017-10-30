@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Travels</title>
+  </head>
+  <body>
+    {% csrf_token %}
+
+    <h1>Hello, {{request.session.name}}!</h1>
+    <a href="/logout">Logout</a>
+    <!-- <a href="/travels/add">Add a Travel Plan</a> -->
+    <br>
+    <br>
+    <h3>Here is a list of your friends!</h3>
+    <table>
+      <thead>
+          <tr>
+            <th>Alias</th>
+            <th>Action</th>
+          </tr>
+      </thead>
+      <tbody>
+        {% for now_friend in now_friends %}
+          <tr>
+            <td>{{now_friend.alias}}</td>
+            <td><a href="viewfriend/{{now_friend.id}}">View profile</a></td>
+            <td><a href="delete/{{now_friend.id}}">Remove friend</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <br><br><br>
+    <hr>
+    <h3>Other Users not on your friend's list: </h3>
+    <table>
+      <thead>
+          <tr>
+            <th>Alias</th>
+            <th>Action</th>
+          </tr>
+      </thead>
+      <tbody>
+        {% for not_yet_friend in not_yet_friends %}
+          <form class="formlower" action="add/{{not_yet_friend.id}}" method="GET">
+            {% csrf_token %}
+
+            <tr>
+              <td><a href="user/{{not_yet_friend.id}}">{{not_yet_friend.alias}}</a></td>
+              <td><button type="submit" name="button">Add as a friend</button></td>
+            </tr>
+
+          </form>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
